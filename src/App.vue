@@ -1,30 +1,30 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+  <Header />
+  <router-view />
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import Header from "@/components/Header"
+export default {
+  components: {
+    Header
+  },
+  created() {
+    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
 
-#nav {
-  padding: 30px;
-}
+    // Whenever the user explicitly chooses light mode
+    localStorage.theme = 'light'
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+    // Whenever the user explicitly chooses dark mode
+    localStorage.theme = 'dark'
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+    // Whenever the user explicitly chooses to respect the OS preference
+    localStorage.removeItem('theme')
+  }
 }
-</style>
+</script>
